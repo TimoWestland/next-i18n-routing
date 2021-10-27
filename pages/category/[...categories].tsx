@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { routes } from '../lib/routes'
+import { routes } from '../../lib/routes'
 
 const products = [
   {
@@ -24,20 +24,21 @@ const products = [
   },
 ]
 
-export const ProductListing: NextPage = () => {
+const ProductListing: NextPage = () => {
   const router = useRouter()
   const baseRoute: string = routes.products[router.locale || router.defaultLocale || '']
-  console.log({ router })
-  const [category, ...subcategories] = Array.isArray(router.query.slug) ? router.query.slug : []
+  const { categories } = router.query
+  const [_, category, ...subcategories] = Array.isArray(categories) ? categories : []
 
   return (
     <div>
       <h1>ProductListing</h1>
       <p>
-        Category: <strong>{category}</strong>
+        <strong>Category: </strong> {category}
       </p>
       <p>
-        Subcategories: <strong>{subcategories.join(', ')}</strong>
+        <strong>Subcategories: </strong>
+        {subcategories.join(', ')}
       </p>
       <ul>
         {products.map((product) => (
@@ -49,3 +50,5 @@ export const ProductListing: NextPage = () => {
     </div>
   )
 }
+
+export default ProductListing

@@ -1,23 +1,24 @@
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { ProductDetail } from '../../components/product-detail'
-import { ProductListing } from '../../components/product-listing'
 
-const isValidSku = (val: string) => /[0-9]{6}/g.test(val)
-
-const ProductPageRenderer: NextPage = () => {
+const ProductDetail: NextPage = () => {
   const router = useRouter()
+  const [slug, sku] = Array.isArray(router.query.slug) ? router.query.slug : []
 
-  // Should probably validate this on the server and redirect to 404 when slug is invalid
-  if (!Array.isArray(router.query.slug)) {
-    return null
-  }
-
-  if (isValidSku(router.query.slug[1])) {
-    return <ProductDetail />
-  }
-
-  return <ProductListing />
+  return (
+    <div>
+      <h1>ProductDetail</h1>
+      <p>Rendering product for: </p>
+      <div>
+        <strong>slug: </strong>
+        {slug}
+      </div>
+      <div>
+        <strong>sku: </strong>
+        {sku}
+      </div>
+    </div>
+  )
 }
 
-export default ProductPageRenderer
+export default ProductDetail
